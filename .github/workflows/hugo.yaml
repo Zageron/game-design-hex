@@ -1,0 +1,79 @@
+name: build and deploy
+
+on:
+  schedule:
+    - cron: "0 0 * * *"
+
+  push:
+    branches: ["main"]
+    paths-ignore:
+      - "README.md"
+      - ".git*"
+      - ".vscode"
+      - "LICENCE"
+
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: true
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          submodules: recursive
+          lfs: true
+
+      - name: Setup Hugo
+        uses: peaceiris/actions-hugo@v2
+        with:
+          hugo-version: "latest"
+          extended: true
+
+      - name: Build Link Index
+        uses: jackyzha0/hugo-obsidian@v2.20
+        with:
+          index: true
+          input: content
+          output: assets/indices
+          root: .
+
+      - name: Build
+        run: |
+          hugo \
+          --minify \
+          --baseURL "${{ steps.pages.outputs.base_url }}/"
+
+      - name: Upload Artifact
+        uses: actions/upload-pages-artifact@v1
+        with:
+          path: ./public
+
+  deploy-pages:
+    needs: build
+
+    permissions:
+      pages: write
+      id-token: write
+
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v2
