@@ -3,5 +3,8 @@ exampleSite/public/
 .DS_Store
 .hugo_build.lock
 themes
-assets/indices
+assets/indices/*
 static/linkmap
+
+# Never exclude gitkeep
+!.gitkeep
