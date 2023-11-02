@@ -8,6 +8,11 @@
             "type": "shell",
             "isBackground": true,
             "command": "make serve",
+            "options": {
+                "env": {
+                    "HUGO_PORT": "1314",
+                }
+            },
             "runOptions": {
                 "runOn": "folderOpen"
             },

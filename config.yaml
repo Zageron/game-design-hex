@@ -29,7 +29,6 @@ menu:
       weight: 10
 
 params:
-
   name: Zageron
   title: Zageron's Game Design
 
@@ -79,14 +78,12 @@ params:
     operandIndexId: "REPLACE-WITH-YOUR-OPERAND-INDEX-ID"
 
   # Site description and title
-  description:
-    game design notes, by zageron
+  description: game design notes, by zageron
 
-  
   # Footer links
   links:
     - link_name: home
-      link: https://design.zageron.ca
+      link: https://mgd.zageron.ca
     - link_name: blog
       link: https://zageron.ca
     - link_name: legacy
@@ -130,7 +127,6 @@ params:
   # - In git information
   # - In blog posts
   BookDateFormat: "January 2, 2006"
-
 
   # (Optional, default true) Enables comments template on pages
   # By default partals/docs/comments.html includes Disqus template
